@@ -108,14 +108,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
     modal = document.querySelector(".modal"),
     modalCloseBtn = document.querySelector("[data-close]");
 
+  function OpenModal() {
+    modal.classList.add("show"); //присваиваем класс show при клике на кнопку
+    modal.classList.remove("hide"); //и одновременно удаляем класс hide
+    //можно также через метод toggle
+    //modal.classList.toggle("show");
+    document.body.style.overflow = "hidden"; // при п опытке скрола вниз, модалка не дает скролу двигаться вниз
+    clearInterval(modalTimerID);
+  }
+
   modalTrigger.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      modal.classList.add("show"); //присваиваем класс show при клике на кнопку
-      modal.classList.remove("hide"); //и одновременно удаляем класс hide
-      //можно также через метод toggle
-      //modal.classList.toggle("show");
-      document.body.style.overflow = "hidden"; // при попытке скрола вниз, модалка не дает скролу двигаться вниз
-    });
+    btn.addEventListener("click", OpenModal);
   });
 
   function closeModal() {
@@ -142,4 +145,22 @@ document.addEventListener("DOMContentLoaded", function (event) {
       closeModal();
     }
   });
+
+  const modalTimerID = setTimeout(OpenModal, 600000);
+  //всплывает модалка через 10 min после открытия сайта
+
+  function showModalByScroll() {
+    if (
+      window.pageYOffset + document.documentElement.clientHeight >=
+      document.documentElement.scrollHeight - 1
+    ) {
+      /*1 - это пролистанное пользователем, 2 - это оставшаяся видимая часть снизу
+  страницы, 3 - общая видимая область всей страницы за вычетом 1 пикселя до конца */
+      OpenModal();
+      window.removeEventListener("scroll", showModalByScroll); //удаляет следующий показ модалки после первого отобоажения в конце стр
+    }
+  }
+
+  window.addEventListener("scroll", showModalByScroll);
+  //показать модалку, когда пользователь долистал до конца страницы
 });
