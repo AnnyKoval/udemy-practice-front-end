@@ -40,6 +40,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
   // Timer functional block
 
   const deadline = "2023-01-10";
+  const endProposal = document.querySelector("#deadline");
+  endProposal.innerHTML = `${deadline} o 00:00`;
 
   function getTimeRemaining(endtime) {
     // endtime будет приходить в формате строки
@@ -99,4 +101,45 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   setClock(".timer", deadline);
+
+  //Modal windows block
+
+  const modalTrigger = document.querySelectorAll("[data-modal]"),
+    modal = document.querySelector(".modal"),
+    modalCloseBtn = document.querySelector("[data-close]");
+
+  modalTrigger.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      modal.classList.add("show"); //присваиваем класс show при клике на кнопку
+      modal.classList.remove("hide"); //и одновременно удаляем класс hide
+      //можно также через метод toggle
+      //modal.classList.toggle("show");
+      document.body.style.overflow = "hidden"; // при попытке скрола вниз, модалка не дает скролу двигаться вниз
+    });
+  });
+
+  function closeModal() {
+    modal.classList.add("hide"); // при нажатии на крестик модалка закрывается
+    modal.classList.remove("show");
+    //можно также через метод toggle
+    //modal.classList.toggle("show");
+    document.body.style.overflow = ""; //отменяем блок скрола
+  }
+
+  modalCloseBtn.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (e) => {
+    // по нажатию на любую точку экрана закрыть модалку
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Escape" && modal.classList.contains("show")) {
+      /* по нажатию кнопки esc закрыть модалку, при этом только по нажатию в режиме модалки, а не каждый раз
+      при нажатиии esc */
+      closeModal();
+    }
+  });
 });
