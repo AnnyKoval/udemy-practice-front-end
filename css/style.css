@@ -89,7 +89,7 @@ a {
   bottom: -1px;
   z-index: -1;
   height: 8px;
-  background: #54ed39;
+  background: #e7d2e5;
 }
 .header__link:last-child {
   margin-right: 0;
@@ -166,12 +166,14 @@ a {
   right: -177px;
   width: 550px;
   height: 359px;
-  background: rgba(251, 254, 93, 0.8);
+  background: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
   padding: 50px;
   font-size: 24px;
   font-weight: 300;
   line-height: 36px;
   color: rgba(0, 0, 0, 0.7);
+  opacity: 0.9;
+  border-radius: 2%;
 }
 .tabheader {
   width: 280px;

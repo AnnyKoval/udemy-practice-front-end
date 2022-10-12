@@ -226,4 +226,80 @@ document.addEventListener("DOMContentLoaded", function (event) {
     21,
     ".menu .container"
   ).render();
+
+  // Slider
+
+  const slides = document.querySelectorAll(".offer__slide"),
+    prev = document.querySelector(".offer__slider-prev"),
+    next = document.querySelector(".offer__slider-next"),
+    total = document.querySelector("#total"),
+    current = document.querySelector("#current"),
+    slidesWrapper = document.querySelector(".offer__slider-wrapper"),
+    slidesField = document.querySelector(".offer__slider-inner"),
+    width = window.getComputedStyle(slidesWrapper).width; //примененный стиль к ширине слайда
+  //тк возвращается объект со всеми свойствами, то мы извлекаем только его ширину
+  let slideIndex = 1; //начинаем слайдер с 1 слайда
+  let offset = 0; //назначаем отступ для передвижения слайда
+
+  //работа с нумерацией
+  if (slides.length < 10) {
+    total.textContent = `0${slides.length}`;
+    current.textContent = `0${slideIndex}`;
+  } else {
+    total.textContent = slides.length;
+    current.textContent = slideIndex;
+  }
+
+  slidesField.style.width = 100 * slides.length + "%"; //задаем слайду ширину в %
+  slidesField.style.display = "flex"; //эти же стили можно прописать и в CSS
+  slidesField.style.transition = "0.5s all";
+  slidesWrapper.style.overflow = "hidden"; //скрываем элементы, которые не попадают в область видимости
+  slides.forEach((slide) => {
+    slide.style.width = width; //установили всем слайдерам одинаковую ширину, чтоб они поместились в slideField
+  });
+  next.addEventListener("click", () => {
+    //прописываем поведение стрелки next
+    if (offset === +width.slice(0, width.length - 2) * (slides.length - 1)) {
+      //в переменной width лежит строка "400px", трансформируем ее как строку в номер и без pх
+      //когда доходим по последнего слайда возвращаем слайдер в начальное положение
+      offset = 0; // начало слайдов
+    } else {
+      //если это не последний слайд, то:
+      offset += +width.slice(0, width.length - 2); //когда нажимаем стрелку вперед, то добавляется ширина еще одного слайда и слайд смещается
+    }
+    slidesField.style.transform = `translateX(-${offset}px)`; //трансформируем элемент по оси Х
+    if (slideIndex === slides.length) {
+      slideIndex = 1; //если мы дошли до конца слайдера - возвращаем нумерацию с 1 слайда
+    } else {
+      slideIndex++; // если не дошли - добавляем единицу
+    }
+
+    if (slides.length < 10) {
+      current.textContent = `0${slideIndex}`;
+    } else {
+      current.textContent - slideIndex;
+    }
+  });
+  prev.addEventListener("click", () => {
+    //кнопка назад:
+    if (offset == 0) {
+      //если это первый слайд, то возвращаем формулу последнего слайда, перемещаясь в самый конец
+      offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+    } else {
+      //если это не первый слайд, то:
+      offset -= +width.slice(0, width.length - 2); //когда нажимаем стрелку назад, то отнимаем ширину одного слайда на который смещаемся
+    }
+    slidesField.style.transform = `translateX(-${offset}px)`; //трансформируем элемент по оси Х
+    if (slideIndex === 1) {
+      slideIndex = slides.length; //если мы на 1 слайде - переходим в конец
+    } else {
+      slideIndex--; // если нет - вычитаем единицу
+    }
+
+    if (slides.length < 10) {
+      current.textContent = `0${slideIndex}`;
+    } else {
+      current.textContent - slideIndex;
+    }
+  });
 });
