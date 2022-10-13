@@ -280,12 +280,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
     dot.setAttribute("data-slide-to", i + 1);
     dot.style.cssText = `box-sizing: content-box;
     flex: 0 1 auto;
-    width: 30px;
-    height: 6px;
+    width: 40px;
+    height: 8px;
     margin-right: 3px;
     margin-left: 3px;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #509A25;
     background-clip: padding-box;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
