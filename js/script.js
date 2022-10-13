@@ -348,19 +348,22 @@ document.addEventListener("DOMContentLoaded", function (event) {
     dots[slideIndex - 1].style.opacity = 1;
   });
   dots.forEach((dot) => {
-    //синхронизация нажатия точки со стрелками и с нумерацией слайдов
+    //синхронизируем нажатие точки с нумерацией и стрелкой
     dot.addEventListener("click", (e) => {
       const slideTo = e.target.getAttribute("data-slide-to");
+
       slideIndex = slideTo;
       offset = +width.slice(0, width.length - 2) * (slideTo - 1);
-      slidesField.style.transform = `translateX(-${offset}px)`; //трансформируем элемент по оси Х
+
+      slidesField.style.transform = `translateX(-${offset}px)`;
+
       if (slides.length < 10) {
         current.textContent = `0${slideIndex}`;
       } else {
-        current.textContent - slideIndex;
+        current.textContent = slideIndex;
       }
 
-      dots.forEach((dot) => (dot.style.opacity = "0.5")); //неактивные точки прозрачнее
+      dots.forEach((dot) => (dot.style.opacity = ".5")); //неактивная точка светлее
       dots[slideIndex - 1].style.opacity = 1;
     });
   });
