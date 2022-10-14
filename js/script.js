@@ -298,15 +298,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
     dots.push(dot);
   }
 
+  function deleteNotDigits(str) {
+    return +str.replace(/\D/g, "");
+  }
+
   next.addEventListener("click", () => {
     //прописываем поведение стрелки next
-    if (offset === +width.slice(0, width.length - 2) * (slides.length - 1)) {
+    if (offset === deleteNotDigits(width) * (slides.length - 1)) {
       //в переменной width лежит строка "400px", трансформируем ее как строку в номер и без pх
       //когда доходим по последнего слайда возвращаем слайдер в начальное положение
       offset = 0; // начало слайдов
     } else {
       //если это не последний слайд, то:
-      offset += +width.slice(0, width.length - 2); //когда нажимаем стрелку вперед, то добавляется ширина еще одного слайда и слайд смещается
+      offset += deleteNotDigits(width); //когда нажимаем стрелку вперед, то добавляется ширина еще одного слайда и слайд смещается
     }
     slidesField.style.transform = `translateX(-${offset}px)`; //трансформируем элемент по оси Х
     if (slideIndex === slides.length) {
@@ -327,10 +331,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
     //кнопка назад:
     if (offset == 0) {
       //если это первый слайд, то возвращаем формулу последнего слайда, перемещаясь в самый конец
-      offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+      offset = deleteNotDigits(width) * (slides.length - 1);
     } else {
       //если это не первый слайд, то:
-      offset -= +width.slice(0, width.length - 2); //когда нажимаем стрелку назад, то отнимаем ширину одного слайда на который смещаемся
+      offset -= deleteNotDigits(width); //когда нажимаем стрелку назад, то отнимаем ширину одного слайда на который смещаемся
     }
     slidesField.style.transform = `translateX(-${offset}px)`; //трансформируем элемент по оси Х
     if (slideIndex === 1) {
@@ -353,7 +357,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       const slideTo = e.target.getAttribute("data-slide-to");
 
       slideIndex = slideTo;
-      offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+      offset = deleteNotDigits(width) * (slideTo - 1);
 
       slidesField.style.transform = `translateX(-${offset}px)`;
 
