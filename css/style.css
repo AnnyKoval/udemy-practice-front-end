@@ -67,7 +67,7 @@ a {
   max-width: 170px;
 }
 .header__logo img {
-  width: 100%;
+  width: 150%;
 }
 .header__links {
   display: flex;
